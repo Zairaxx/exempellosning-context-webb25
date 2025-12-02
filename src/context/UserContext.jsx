@@ -2,16 +2,14 @@ import React, { createContext, useState, useEffect } from "react";
 
 export const UserContext = createContext();
 
-
 // HOC - Higher Order Component
 
 export const UserProvider = ({ children }) => {
   
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState(JSON.parse(localStorage.getItem("users")) || []);
 
   useEffect(() => {
-    //Synka state med local storage
-    localStorage.setItem("users", JSON.stringify(users));
+      localStorage.setItem("users", JSON.stringify(users));
   }, [users]);
 
   const addUser = async () => {
@@ -34,8 +32,10 @@ export const UserProvider = ({ children }) => {
     setUsers([...users, newUser])
   }
 
+  const removeUser = () => {}
+
   return (
-    <UserContext value={{ users, addUser }}>
+    <UserContext value={{ users, addUser, removeUser }}>
       {children}
     </UserContext>
   );
